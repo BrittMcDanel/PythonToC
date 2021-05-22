@@ -9,7 +9,7 @@ cmake ..
 make -j8
 ```
 
-If you want to play around with the compiler, edit examples/math.py
+If you want to play around with the compiler, edit example/math.py
 ```
 ./example
 ```
