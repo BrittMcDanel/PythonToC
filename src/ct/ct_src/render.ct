@@ -1,0 +1,29 @@
+(import engine)
+(import image)
+(import utils)
+(import image)
+(import ct_array)
+
+(weak_import game)
+
+
+(defclass RenderSprite)
+    (SDL_Texture* texture)
+    (SDL_Rect src)
+    (SDL_Rect dst)
+    (int layer)
+    (bool is_hidden)
+
+
+(defun create_render_sprite ((texture SDL_TexturePtr) (src SDL_Rect) (dst SDL_Rect) (layer int) (is_hidden bool)) RenderSprite)
+    (= s (RenderSprite))
+    (= s.texture texture)
+    (= s.src src)
+    (= s.dst dst)
+    (= s.layer layer)
+    (= s.is_hidden is_hidden)
+    (return s)
+
+
+(defun render_sprite_draw ((game Game) (render_sprite RenderSprite)) Any)
+    (SDL_RenderCopy game.engine.renderer render_sprite.texture render_sprite.src render_sprite.dst)

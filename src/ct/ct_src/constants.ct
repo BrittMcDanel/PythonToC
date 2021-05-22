@@ -1,0 +1,55 @@
+
+
+
+(defenum ImageName)
+    (NA)
+    (UI)
+    (Tiles)
+    (Units)
+    (Abilities)
+    (Misc)
+    (Icons)
+    (Monsters)
+
+
+(defenum BGMAudioName)
+    (NA)
+    (Forest)
+
+
+(defenum SEAudioName)
+    (NA)
+    (Sword)
+
+
+(defenum FontStyle)
+    (Normal)
+    (Bold)
+    (Italic)
+
+
+(defenum TextAlignment)
+    (Left)
+    (Center)
+    (Right)
+
+
+(defenum TextWordWrap)
+    (NoWrap)
+    (Wrap)
+
+
+(defenum SDLK)
+    (w)
+    (a)
+    (s)
+    (d)
+
+
+(defenum UnitName)
+    (NA)
+    (Knight)
+    (Slime)
+    (Bunny)
+    (Bat)
+    (Stump)

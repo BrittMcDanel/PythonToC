@@ -1,0 +1,124 @@
+
+
+(weak_import tile)
+(weak_import unit)
+(weak_import map)
+
+
+(= T (TypeVar 'T'))
+
+; ^ must weak import all files that will call this as they are all going into
+;   ct_array!
+
+; IMPORTANT - MAKE SURE TO UPDATE CT_COMPILER WITH ANY ARRAY FUNCTION
+; THAT INDEXES BASED ON arr.size. CT_COMPILER HAS A HACKY CONDITION
+; THAT MUST BE ADDED TO SO THAT THESE FUNCTIONS ARE IGNORED BY BOUNDS
+; CHECKING!
+
+
+(defun push ((arr Any) (value_ptr Any)) Any)
+    (= capacity (array_capacity arr))
+    (if (> arr.size (- capacity 1)))
+        (print "arr_push - array size is > than capacity - 1." "size:" arr.size "capacity:" capacity)
+        (exit 1)
+    (= arr[arr.size] (deref value_ptr))
+    (+= arr.size 1)
+
+
+(defun push_value ((arr Any) (value Any)) Any)
+    (= capacity (array_capacity arr))
+    (if (> arr.size (- capacity 1)))
+        (print "arr_push_value - array size is > than capacity - 1." "size:" arr.size "capacity:" capacity)
+        (exit 1)
+    (= arr[arr.size] value)
+    (+= arr.size 1)
+
+
+(defun next ((arr Any)) Any)
+    (= capacity (array_capacity arr))
+    (if (> arr.size (- capacity 1)))
+        (print "arr_next - array size is > than capacity - 1." "size:" arr.size "capacity:" capacity)
+        (exit 1)
+    (= value (addr arr[arr.size]))
+    (+= arr.size 1)
+    (return value)
+
+
+(defun next_handle ((arr Any)) Any)
+    (= capacity (array_capacity arr))
+    (if (> arr.size (- capacity 1)))
+        (print "arr_next - array size is > than capacity - 1." "size:" arr.size "capacity:" capacity)
+        (exit 1)
+    (= handle arr.size)
+    (+= arr.size 1)
+    (return handle)
+
+
+(defun clear ((arr Any)) Any)
+    (= arr.size 0)
+
+
+(defun string_set_literal ((arr Any) (string_literal Any)) Any)
+    ; arr is of type Array of char ,  string literal is of type char*
+    (= capacity (array_capacity arr))
+    (= length (strlen string_literal))
+    (= buffer (array_get_buffer arr))
+
+    (if (> length (- capacity 1)))
+        (print "string_set_literal - string literal length is > then the capacity of arr." "\nstring literal length:" length "\narr capacity:" capacity "\narr str:" buffer "\nstring_literal:" string_literal)
+        (exit 1)
+    (strcpy buffer string_literal)
+    (= arr.size length)
+
+
+(defun string_set ((arr1 Any) (arr2 Any)) Any)
+    ; arr1 and arr2 are both of type Array of char
+    (= capacity (array_capacity arr1))
+    (= buffer1 (array_get_buffer arr1))
+    (= buffer2 (array_get_buffer arr2))
+
+    (if (> arr2.size (- capacity 1)))
+        (print "string_set - arr2.size > then the capacity of arr1" "\narr2.size:" arr2.size "\narr1 capacity:" capacity "\narr1 str:" buffer1 "\narr2 str:" buffer2)
+        (exit 1)
+    (strcpy buffer1 buffer2)
+    (= arr1.size arr2.size)
+
+
+(defun string_cat_literal ((arr Any) (string_literal Any)) Any)
+    ; arr is of type Array of char ,  string literal is of type char*
+    (= capacity (array_capacity arr))
+    (= length (strlen string_literal))
+    (= buffer (array_get_buffer arr))
+
+    ; nothing to cat
+    (if (== length 0))
+        (return)
+    ; if arr1 size is 0 make sure it has a null terminator by doing a strcpy of an empty string.
+    ; a size of 0 might mean its unitialized.
+    (if (== arr.size 0))
+        (string_set_literal arr "")
+    (if (> (+ arr.size length) (- capacity 1)))
+        (print "string_cat_literal - arr.size + string literal length is > then the capacity of arr." "\narr size:" arr.size "\nstring literal length:" length "\narr capacity:" capacity "\narr str:" buffer "\nstring_literal:" string_literal)
+        (exit 1)
+    (strcat buffer string_literal)
+    (+= arr.size length)
+
+
+(defun string_cat ((arr1 Any) (arr2 Any)) Any)
+    ; arr1 and arr2 are both of type Array of char
+    (= capacity (array_capacity arr1))
+    (= buffer1 (array_get_buffer arr1))
+    (= buffer2 (array_get_buffer arr2))
+
+    ; nothing to cat
+    (if (== arr2.size 0))
+        (return)
+    ; if arr1 size is 0 make sure it has a null terminator by doing a strcpy of an empty string.
+    ; a size of 0 might mean its unitialized.
+    (if (== arr1.size 0))
+        (string_set_literal arr1 "")
+    (if (> (+ arr1.size arr2.size) (- capacity 1)))
+        (print "string_cat - arr1.size + arr2.size is > then the capacity of arr." "\narr1 size:" arr1.size "\narr2 size:" arr2.size "\narr capacity:" capacity "\narr1 str:" buffer1 "\narr2 str:" buffer2)
+        (exit 1)
+    (strcat buffer1 buffer2)
+    (+= arr1.size arr2.size)

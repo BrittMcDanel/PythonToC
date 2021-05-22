@@ -1,0 +1,13 @@
+(import image)
+(import utils)
+(import image)
+(weak_import game)
+
+
+(defclass CompSprite)
+    (Image image)
+    (SDL_Rect src)
+
+
+(defun comp_sprite_update ((game Game) (sprite CompSprite)) Any)
+    (return 0)

@@ -1,0 +1,16 @@
+(import image)
+(import utils)
+(import image)
+(import ct_array)
+(import sprite)
+(weak_import game)
+
+
+(defclass Tile)
+    (Sprite sprite)
+
+    (defun update ((self Any) (game Game)) Any)
+        (self.sprite.update game)
+
+    (defun draw ((self Any) (game Game)) Any)
+        (self.sprite.draw game)

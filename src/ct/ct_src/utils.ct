@@ -1,0 +1,110 @@
+
+
+
+(defclass SDL_Rect)
+    (int x)
+    (int y)
+    (int w)
+    (int h)
+
+
+(defclass SDL_Point)
+    (int x)
+    (int y)
+
+
+(defclass SDL_Color)
+    (int r)
+    (int g)
+    (int b)
+    (int a)
+
+
+(defun create_point ((x Any) (y Any)) SDL_Point)
+    (= p (SDL_Point))
+    (= p.x x)
+    (= p.y y)
+    (return p)
+
+
+(defun create_rect ((x Any) (y Any) (w Any) (h Any)) SDL_Rect)
+    (= r (SDL_Rect))
+    (= r.x x)
+    (= r.y y)
+    (= r.w w)
+    (= r.h h)
+    (return r)
+
+
+(defun create_color ((r Any) (g Any) (b Any) (a Any)) SDL_Color)
+    (= c (SDL_Color))
+    (= c.r r)
+    (= c.g g)
+    (= c.b b)
+    (= c.a a)
+    (return c)
+
+
+(defun add_points ((p1 SDL_Point) (p2 SDL_Point)) SDL_Point)
+    (return (create_point (+ p1.x p2.x) (+ p1.y p2.y)))
+
+
+(defun subtract_points ((p1 SDL_Point) (p2 SDL_Point)) SDL_Point)
+    (return (create_point (- p1.x p2.x) (- p1.y p2.y)))
+
+
+(defun colors_are_equal ((c1 SDL_Color) (c2 SDL_Color)) bool)
+    (return (and (and (and (== c1.r c2.r) (== c1.g c2.g)) (== c1.b c2.b)) (== c1.a c2.a)))
+
+
+(defun set_scaled_rect ((rect SDL_Rect) (scale int)) Any)
+    (*= rect.x scale)
+    (*= rect.y scale)
+    (*= rect.w scale)
+    (*= rect.h scale)
+
+
+(defun set_scaled_rect_with_camera ((rect SDL_Rect) (camera_dst SDL_Point) (scale int)) Any)
+    (= p (create_point rect.x rect.y))
+    (-= p.x camera_dst.x)
+    (-= p.y camera_dst.y)
+    (*= p.x scale)
+    (*= p.y scale)
+    (= rect.x p.x)
+    (= rect.y p.y)
+    (*= rect.w scale)
+    (*= rect.h scale)
+
+
+(defun iso_tile_point_to_world_point ((p SDL_Point) (tile_half_dims SDL_Point)) SDL_Point)
+    (= x (* (- p.x p.y) tile_half_dims.x))
+    (= y (* (+ p.x p.y) tile_half_dims.y))
+    (return (create_point x y))
+
+
+(defun iso_world_point_to_tile_point ((world_point SDL_Point) (tile_half_dims SDL_Point)) SDL_Point)
+    ; MUST BE FLOATS OR THERE IS NOT ENOUGH PRECISION
+    (= screen_x (+ 0.0 world_point.x))
+    (= screen_y (+ 0.0 world_point.y))
+    (= tile_width_half_float (+ 0.0 tile_half_dims.x))
+    (= tile_height_half_float (+ 0.0 tile_half_dims.y))
+    (= floor_x (* 0.5 (+ (/ (- screen_x tile_width_half_float) tile_width_half_float) (/ screen_y tile_height_half_float))))
+    (= floor_y (* 0.5 (+ (/ (negate (- screen_x tile_width_half_float)) tile_width_half_float) (/ screen_y tile_height_half_float))))
+    (return (create_point (floor floor_x) (floor floor_y)))
+
+
+(defun index_to_world_point ((idx SDL_Point) (tile_size SDL_Point)) SDL_Point)
+    (return (create_point (* idx.x tile_size.x) (* idx.y tile_size.y)))
+
+
+(defun world_point_to_index ((world_point SDL_Point) (tile_size SDL_Point)) SDL_Point)
+    (return (create_point (/ world_point.x tile_size.x) (/ world_point.y tile_size.y)))
+
+
+<c_library_funcs>
+double floor(double);
+</c_library_funcs>
+
+
+(defun floor ((val double)) double)
+    (return val)

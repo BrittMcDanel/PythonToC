@@ -1,0 +1,43 @@
+(import comp_sprite)
+(import comp_position)
+(import ct_array)
+(import game_object)
+(import image)
+
+
+(weak_import game)
+(weak_import engine)
+
+
+(defclass GameDatabase)
+    ((make_array GameObject 5000) game_objects)
+    ((make_array CompPosition 3000) c_positions)
+    ((make_array CompSprite 3000) c_sprites)
+    ((make_array GameObject 5000) render_system_gos)
+
+
+(defun render_system ((game Game) (game_database GameDatabase)) Any)
+    (foreach go game_database.render_system_gos)
+        (= position (addr game_database.c_positions[go.c_position_idx]))
+        (= sprite (addr game_database.c_sprites[go.c_sprite_idx]))
+        (SDL_RenderCopy game.engine.renderer sprite.src position.dst)
+
+
+(defun add_position_component ((db GameDatabase) (go GameObject)) Any)
+    (if (!= go.c_position_idx (negate 1)))
+        (exit 1)
+    (= position_idx (arr_next_handle db.c_positions))
+    (= position (addr db.c_positions[position_idx]))
+    (= position.go_idx go.go_idx)
+    (= go.c_position_idx position_idx)
+    (return position_idx)
+
+
+(defun add_sprite_component ((db GameDatabase) (go GameObject)) Any)
+    (if (!= go.c_sprite_idx (negate 1)))
+        (exit 1)
+    (= sprite_idx (arr_next_handle db.c_sprites))
+    (= sprite (addr db.c_sprites[sprite_idx]))
+    (= sprite.go_idx go.go_idx)
+    (= go.c_sprite_idx sprite_idx)
+    (return sprite_idx)

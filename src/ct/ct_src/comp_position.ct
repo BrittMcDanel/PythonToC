@@ -1,0 +1,6 @@
+(import utils)
+
+
+(defclass CompPosition)
+    (int go_idx)
+    (SDL_Rect dst)

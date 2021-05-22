@@ -1,0 +1,38 @@
+(import ct_array)
+(import constants)
+(import utils)
+
+(import font)
+(weak_import game)
+(weak_import engine)
+
+
+(defclass Text)
+    (Font* font)
+    (SDL_Rect dst)
+    ((make_array char 200) str)
+    (int width)
+    (TextAlignment text_alignment)
+    (TextWordWrap text_word_wrap)
+
+    (defun init ((self Any) (game Game) (text_str Any) (dst SDL_Point) (font_style FontStyle) (_text_alignment TextAlignment) (_text_word_wrap TextWordWrap) (_width int) (font_size int) (color SDL_Color) (outline int) (outline_color SDL_Color) (use_drop_shadow bool)) Any)
+        (= self.dst (create_rect dst.x dst.y 0 0))
+        (= self.text_alignment _text_alignment)
+        (= self.text_word_wrap _text_word_wrap)
+        (= self.width _width)
+        (self.str.string_set_literal text_str)
+        (= self.font (engine_get_font game.engine font_style font_size color outline outline_color use_drop_shadow))
+
+    (defun draw ((self Any) (game Game)) Any)
+        (= str_buffer (array_get_buffer self.str))
+        (= dst (create_point self.dst.x self.dst.y))
+        (text_draw_string game self str_buffer self.str.size dst true)
+
+
+<c_func>
+SDL_Point text_draw_string(Game* game, Text* text, char* str, int len, SDL_Point* dst,                         bool perform_draw) {  int x = 0;  int y = 0;  char c;  int char_as_int;  CharInfo *char_info;  stbtt_packedchar *info;  SDL_Rect *src_rect;  SDL_Rect dst_rect;  for (int i = 0; i < len; i++) {    c = str[i];    char_as_int = (int)c;    if (!(char_as_int >= 32 || char_as_int <= 127)) {      continue;    }    if (char_as_int < 0 || char_as_int > 322 - 1) {        printf("Text - text_draw. char_as_int is out of bounds\n");        exit(1);    }    char_info = &text->font->char_infos.arr[char_as_int];    src_rect = &char_info->rect;    info = &text->font->stb_font->chars[(int)c - 32];    dst_rect = *src_rect;    dst_rect.x = dst->x + x + info->xoff;    dst_rect.y = dst->y + y + info->yoff + text->font->stb_font->baseline;    if (perform_draw) {      /* culling improves performance. */      if (!(dst_rect.x < -dst_rect.w ||          dst_rect.x > game->engine.window_resolution.x ||          dst_rect.y < -dst_rect.h ||          dst_rect.y > game->engine.window_resolution.y)) {         SDL_RenderCopy(game->engine.renderer, text->font->texture, src_rect,                     &dst_rect);      }    }    x += char_info->advance;  }    SDL_Point text_dims;  text_dims.x = x;  text_dims.y = 0;  return text_dims;}
+</c_func>
+
+
+(defun text_draw_string ((game Game) (text Text) (str Any) (len int) (dst SDL_Point) (perform_draw bool)) SDL_Point)
+    (return (create_point 0 0))

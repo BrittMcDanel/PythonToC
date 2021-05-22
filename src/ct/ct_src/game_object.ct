@@ -1,0 +1,7 @@
+(import image)
+
+
+(defclass GameObject)
+    (int go_idx)
+    (int c_position_idx)
+    (int c_sprite_idx)

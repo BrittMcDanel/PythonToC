@@ -1,0 +1,14 @@
+(import ct_array)
+(import constants)
+(import utils)
+
+
+
+(defclass BGMAudio)
+    (BGMAudioName audio_name)
+    (Mix_Music* audio)
+
+
+(defclass SEAudio)
+    (SEAudioName audio_name)
+    (Mix_Chunk* audio)

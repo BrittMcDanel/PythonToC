@@ -1,0 +1,28 @@
+(import engine)
+(import image)
+(import utils)
+(import image)
+(import ct_array)
+
+(weak_import game)
+
+
+(defclass Sprite)
+    (Image image)
+    (SDL_Rect dst)
+    (SDL_Rect scaled_dst)
+    ((make_array SDL_Rect 10) srcs)
+    (Uint32 anim_speed)
+    (Uint32 spawn_time)
+    (bool is_camera_rendered)
+
+    (defun update ((self Any) (game Game)) Any)
+        (= self.scaled_dst self.dst)
+        (if self.is_camera_rendered)
+            (set_scaled_rect_with_camera self.scaled_dst game.engine.camera.dst game.engine.scale)
+        (else)
+            (set_scaled_rect self.scaled_dst game.engine.scale)
+
+    (defun draw ((self Any) (game Game)) Any)
+        (= src (addr self.srcs[0]))
+        (SDL_RenderCopy game.engine.renderer self.image.texture src self.scaled_dst)

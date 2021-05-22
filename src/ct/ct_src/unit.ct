@@ -1,0 +1,24 @@
+(import engine)
+(import image)
+(import constants)
+(import utils)
+(import image)
+(import ct_array)
+
+(import unit_sprite)
+(weak_import game)
+
+
+(defclass Unit)
+    (UnitName unit_name)
+    (UnitSprite sprite)
+
+    (defun update ((self Any) (game Game)) Any)
+        (self.sprite.update game)
+
+    (defun draw ((self Any) (game Game)) Any)
+        (self.sprite.draw game)
+
+    (defun set_to ((self Any) (game Game) (unit_name UnitName) (dst SDL_Point)) Any)
+        (= self.unit_name unit_name)
+        (self.sprite.set_to game unit_name dst)

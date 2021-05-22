@@ -1,0 +1,64 @@
+import sprite
+
+defclass Unit
+    int hp
+    int attack
+    Sprite sprite
+
+defun get_unit ()
+    = sprite_arr (make_array Sprite 5)
+    = u Unit
+    return u
+
+defun arr_test (arr)
+    = arr_element arr[0]
+    return arr_element
+
+defun temp_func (unit val)
+    = units (make_array Unit 10)
+    = v units[5]
+    = a 2
+    = b (+ 10 20 (/ 40 10))
+    if (> unit.hp.current unit.hp.max)
+        = unit.hp.current unit.hp.max
+    elif (and (> unit.hp.current 20) unit.is_dead)
+        = unit.hp.current 0
+    else
+        = unit.hp.current 100
+    for i 0 10
+        = temp i
+    inc_range 10
+    return 5
+
+defun return_val (unit)
+    = first 10
+    for i 0 10
+        = myvar i
+    = a 2
+    = b 4
+    return unit
+
+defun return_test (val)
+    return val.sprite.anim_speed
+
+defun inc_range (unit val)
+    = u 5.0
+    = units 20
+    = c 10.0
+    for i 0 10
+        = c 30.0
+    if true
+        = a 10
+    elif false
+        = b 10
+    else
+        = e 20
+    return_val u
+    return_val 20
+    add_func unit val
+    add_func val unit
+    return c
+ 
+defun array_func ()
+    = arr (make_array Unit 20)
+    return arr

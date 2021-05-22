@@ -1,0 +1,20 @@
+
+(import engine)
+(import ct_array)
+
+(import constants)
+(import game)
+
+
+
+(defun main () Any)
+    (= game (malloc (Game) 1))
+    (game.init)
+    (game.start)
+    (while (not game.engine.quit))
+        (engine_clear game.engine)
+        (game.engine.update)
+        (game.update)
+        (game.draw)
+        (engine_present game.engine)
+    (free game)

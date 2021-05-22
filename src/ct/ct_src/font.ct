@@ -1,0 +1,26 @@
+(import ct_array)
+(import constants)
+(import utils)
+
+
+
+(defclass CharInfo)
+    (SDL_Rect rect)
+    (int minx)
+    (int maxx)
+    (int miny)
+    (int maxy)
+    (int advance)
+
+
+(defclass Font)
+    (STBTTF_Font* stb_font)
+    (SDL_Texture* texture)
+    (FontStyle font_style)
+    (int font_size)
+    (SDL_Color color)
+    (int outline)
+    (SDL_Color outline_color)
+    (int font_height)
+    (bool use_drop_shadow)
+    ((make_array CharInfo 322) char_infos)

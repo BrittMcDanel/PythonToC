@@ -1,0 +1,14 @@
+(import constants)
+
+
+
+(defclass Image)
+    (ImageName image_name)
+    (SDL_Texture* texture)
+
+
+(defun image_create ((image_name Any) (texture Any)) Any)
+    (= image Image)
+    (= image.image_name image_name)
+    (= image.texture texture)
+    (return image)

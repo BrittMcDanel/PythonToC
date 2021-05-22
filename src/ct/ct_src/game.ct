@@ -1,0 +1,32 @@
+
+(import engine)
+(import scene_map)
+(import ct_array)
+
+(import constants)
+(import comp_sprite)
+(import map)
+(import utils)
+
+
+
+(defclass Game)
+    (Engine engine)
+    (Map map)
+    (SDL_Point tile_size)
+
+    (defun init ((self Any)) Any)
+        ; initialize default values
+        (= self.tile_size (create_point 20 20))
+        (self.engine.init)
+
+    (defun start ((self Any)) Any)
+        ; textures loaded here
+        (engine_start self.engine)
+        (self.map.create_initial self 40 40)
+
+    (defun update ((self Any)) Any)
+        (self.map.update self)
+
+    (defun draw ((self Any)) Any)
+        (self.map.draw self)
