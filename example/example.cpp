@@ -17,9 +17,9 @@ using namespace std;
 */
 int main() {
   auto ct_file_content_dict = unordered_map<string, string>();
-  auto py_compiler = PYCompiler("../src/example/", "../src/example/");
+  auto py_compiler = PYCompiler("../example/", "../example/");
   py_compiler.compile_file("math", ct_file_content_dict);
-  auto compiler = CTCompiler(false, "../src/example/", "../src/example/", "../src/example/");
+  auto compiler = CTCompiler(false, "../example/", "../example/", "../example/");
   compiler.compile_file("math", ct_file_content_dict);
   compiler.eval_main();
   compiler.output_c_files();

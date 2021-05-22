@@ -109,7 +109,7 @@ target_link_libraries(game_main SDL2-static SDL2main -lSDL2_ttf -lSDL2_image -lS
 target_include_directories(game_main PUBLIC lib/SDL2/include)
 
 # example
-add_executable(example src/example/example.cpp ${EXAMPLE_SOURCE_FILES})
+add_executable(example example/example.cpp ${EXAMPLE_SOURCE_FILES})
 set_property(TARGET example PROPERTY CMAKE_CXX_STANDARD 17)
 
 # ttf / image are not statically linked right now
