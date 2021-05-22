@@ -1,3 +1,5 @@
+Subset of python that compiles into c for game programming.
+
 Build steps
 
 ```
@@ -7,3 +9,4 @@ cmake ..
 make -j8
 ./example
 ```
+
