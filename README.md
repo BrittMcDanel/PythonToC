@@ -10,3 +10,7 @@ make -j8
 ./example
 ```
 
+If you want to run the game
+```
+./game_main
+```
